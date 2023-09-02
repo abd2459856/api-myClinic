@@ -8,9 +8,13 @@ class Get_model extends CI_Model
 {
 
 
-    public function get_doctor()
+    public function get_doctor($data)
     {
-        $sql = "SELECT * FROM `tbl_doctor`";
+        $WHERE = "";
+        if ($data['id'] != '') {
+            $WHERE = "AND id = '$data[id]' ";
+        }
+        $sql = "SELECT * FROM `tbl_doctor WHERE 1=1 $WHERE `";
         return $this->db->query($sql)->result();
     }
 
