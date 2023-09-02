@@ -44,7 +44,9 @@ class Get_model extends CI_Model
         if ($data['id'] != '') {
             $WHERE = "AND id = '$data[id]' ";
         }
-        $sql = "SELECT * FROM Tbl_rendezvous WHERE 1=1 " . $WHERE;
+        $sql = "SELECT * FROM Tbl_rendezvous R
+                INNER JOIN tbl_customer C ON R.Customer_ID = C.Customer_ID
+                WHERE 1=1 " . $WHERE;
         return $this->db->query($sql)->result();
     }
 

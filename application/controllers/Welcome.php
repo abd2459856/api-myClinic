@@ -93,6 +93,13 @@ class Welcome extends CI_Controller
 		http_response_code(200);
 		echo json_encode(array('result' => true));
 	}
+	public function get_rendezvous()
+	{
+		$data = ["id" => ''];
+		$get = $this->Get_model->get_rendezvous($data);
+		http_response_code(200);
+		echo json_encode(array('result' => $get));
+	}
 
 	public function insert_customer()
 	{
