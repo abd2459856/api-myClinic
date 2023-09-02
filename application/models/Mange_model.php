@@ -4,35 +4,33 @@ date_default_timezone_set("Asia/Bangkok");
 set_time_limit(0);
 ini_set('memory_limit', '-1');
 
-class Get_model extends CI_Model
+class Mange_model extends CI_Model
 {
-
-
-    public function get_doctor($data)
-    {
-        $WHERE ='';
-        if ($data['textSearch']) {
-            $WHERE ="And (ID_Doctor like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
-        }
-        $sql = "SELECT * FROM tbl_doctor Where 1=1 $WHERE ";
-        return $this->db->query($sql)->result();
-    }
 
     public function insert_doctor($data)
     {
         $sql = "INSERT INTO tbl_doctor
                 (
-                    Fisrtname
-                    Lastname
+                    ID_Doctor,
+                    Fisrtname,
+                    Lastname,
+                    Status
                 )
                 VALUES
                 (
+                    '$data[ID_Doctor]',
                     '$data[Fisrtname]',
-                    '$data[Lastname]'
+                    '$data[Lastname]',
+                    '1'
                 )";
         return $this->db->query($sql);
     }
 
+    public function delete_doctor($data)
+    {
+        echo $sql = "DELETE FROM tbl_doctor WHERE ID = '$data[ID]'";
+        return $this->db->query($sql);
+    }
     public function update_doctor($data)
     {
         $sql = "UPDATE tbl_doctor SET 
