@@ -71,7 +71,6 @@ class Welcome extends CI_Controller
 
 	public function insert_rendezvous()
 	{
-
 		$data = [
 			"Savedate" => $this->info['Savedate'],
 			"Startdate" => $this->info['Startdate'],
@@ -187,13 +186,13 @@ class Welcome extends CI_Controller
 	public function img()
 	{
 		for ($i = 0; $i < $this->info['index']; $i++) {
-			$nameArray = explode('.', $_FILES['images' . $i]['name']);
+			$nameArray = explode('.', $_FILES['fileLicense' . $i]['name']);
 			foreach ($nameArray as $row) {
 				$file_extension = $row;
 			}
 			$newnamefilepath = uniqid() . "_img_" . date('Ymd');
 			$nameproperty = $newnamefilepath . '.' . $file_extension;
-			move_uploaded_file($_FILES['images' . $i]['tmp_name'], 'Img/' . $nameproperty);
+			move_uploaded_file($_FILES['fileLicense' . $i]['tmp_name'], 'Img/' . $nameproperty);
 			$data = [
 				"name" => $nameproperty,
 				"id_type" => '',
