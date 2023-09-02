@@ -24,11 +24,13 @@ class Welcome extends CI_Controller
 	 * @see https://codeigniter.com/userguide3/general/u$this->info['Type_Realty'];rls.html
 	 */
 	private $info = "";
+	private $infoget = "";
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('Get_model');
 		$this->info = $this->input->post();
+		$this->infoget = $this->input->get();
 	}
 
 	public function index()
@@ -36,9 +38,12 @@ class Welcome extends CI_Controller
 	}
 	public function get_doctor()
 	{
-		return $this->Get_model->get_doctor();
+		$data = [
+			"id" => $this->infoget['id'],
+		];
+		$get = $this->Get_model->get_doctor($data);
 		http_response_code(200);
-		echo json_encode(array('result' => true));
+		echo json_encode(array('result' => $get));
 	}
 
 	public function insert_doctor()
@@ -92,6 +97,15 @@ class Welcome extends CI_Controller
 		$this->Get_model->update_rendezvous($data);
 		http_response_code(200);
 		echo json_encode(array('result' => true));
+	}
+	public function get_rendezvous()
+	{
+		$data = [
+			"id" =>  $this->infoget['id']
+		];
+		$get = $this->Get_model->get_rendezvous($data);
+		http_response_code(200);
+		echo json_encode(array('result' => $get));
 	}
 
 	public function insert_customer()
@@ -163,23 +177,41 @@ class Welcome extends CI_Controller
 	}
 	public function get_customer()
 	{
-		return $this->Get_model->get_customer();
+		$data = [
+			"Customer_ID" => $this->infoget['Customer_ID']
+		];
+		$get = $this->Get_model->get_customer($data);
 		http_response_code(200);
-		echo json_encode(array('result' => true));
+		echo json_encode(array('result' =>  $get));
 	}
 	public function img()
 	{
-		echo count($_FILES['images']['name']);
-		
-		// echo $name  = $_FILES['images']['name'];
-		
-		// move_uploaded_file($_FILES['images']['tmp_name'], 'Img/' . $name);
+		for ($i = 0; $i < $this->info['index']; $i++) {
+			$nameArray = explode('.', $_FILES['images' . $i]['name']);
+			foreach ($nameArray as $row) {
+				$file_extension = $row;
+			}
+			$newnamefilepath = uniqid() . "_img_" . date('Ymd');
+			$nameproperty = $newnamefilepath . '.' . $file_extension;
+			move_uploaded_file($_FILES['images' . $i]['tmp_name'], 'Img/' . $nameproperty);
+			$data = [
+				"name" => $nameproperty,
+				"id_type" => '',
+				"id_rendezvous" => '',
+				"id_customer" => '',
+				"filepath" => 'Img/' . $nameproperty,
+				"extension" => $file_extension
+			];
+			$this->Get_model->insert_img($data);
+			http_response_code(200);
+			echo json_encode(array('result' => true));
+		}
 	}
 	public function get_type()
 	{
-		return $this->Get_model->get_type();
+		$get = $this->Get_model->get_type();
 		http_response_code(200);
-		echo json_encode(array('result' => true));
+		echo json_encode(array('result' =>  $get));
 	}
 	public function insert_type()
 	{
