@@ -169,11 +169,24 @@ class Welcome extends CI_Controller
 	}
 	public function img()
 	{
-		echo count($_FILES['images']['name']);
-		
-		// echo $name  = $_FILES['images']['name'];
-		
-		// move_uploaded_file($_FILES['images']['tmp_name'], 'Img/' . $name);
+		for ($i = 0; $i < $this->info['index']; $i++) {
+			$nameArray = explode('.', $_FILES['images' . $i]['name']);
+			foreach ($nameArray as $row) {
+				$file_extension = $row;
+			}
+			$newnamefilepath = uniqid() . "_img_" . date('Ymd');
+			echo $nameproperty = $newnamefilepath . '.' . $file_extension;
+			move_uploaded_file($_FILES['images' . $i]['tmp_name'], 'Img/' . $nameproperty);
+			$data = [
+				"name" => $nameproperty,
+				"id_type" => '',
+				"id_rendezvous" => '',
+				"id_customer" => '',
+				"filepath" => 'Img/' . $nameproperty,
+				"extension" => $file_extension
+			];
+			$this->Get_model->insert_img($data);
+		}
 	}
 	public function get_type()
 	{
