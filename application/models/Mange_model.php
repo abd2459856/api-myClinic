@@ -40,51 +40,6 @@ class Mange_model extends CI_Model
         return $this->db->query($sql);
     }
 
-    public function get_rendezvous($data)
-    {
-        $WHERE = "";
-        if ($data['id'] != '') {
-            $WHERE = "AND id = '$data[id]' ";
-        }
-        $sql = "SELECT * FROM Tbl_rendezvous WHERE 1=1 " . $WHERE;
-        return $this->db->query($sql)->result();
-    }
-
-    public function insert_rendezvous($data)
-    {
-        $sql = "INSERT INTO Tbl_rendezvous
-                (
-                    Savedate,
-                    Startdate,
-                    StartTime,
-                    Doctor_ID,
-                    Room_ID,
-                    Section,
-                    Remark,
-                    Phone,
-                    Patient_ID.
-                )
-                VALUES
-                (
-                    '$data[Savedate]',
-                    '$data[Startdate]',
-                    '$data[StartTime]',
-                    '$data[Doctor_ID]',
-                    '$data[Room_ID]',
-                    '$data[Section]',
-                    '$data[Remark]',
-                    '$data[Phone]',
-                    '$data[Patient_ID]'
-                )";
-        return $this->db->query($sql);
-    }
-    public function update_rendezvous($data)
-    {
-        $sql = "UPDATE Tbl_rendezvous 
-                SET status = '$data[status]',
-                    Savedate = '$data[Savedate]'
-                WHERE 	id = '$data[id]' ";
-    }
     public function insert_customer($data)
     {
         $sql = "INSERT INTO Tbl_customer
@@ -95,6 +50,7 @@ class Mange_model extends CI_Model
             Fisrtname,
             Lastname,
             Birthday,
+            gender,
             Occupation,
             Race,
             Nationality,
@@ -112,8 +68,7 @@ class Mange_model extends CI_Model
             address_province,
             postal,
             tell,
-            email,
-            profile
+            email
         )
         VALUES
         (
@@ -123,6 +78,7 @@ class Mange_model extends CI_Model
             '$data[Fisrtname]',
             '$data[Lastname]',
             '$data[Birthday]',
+            '$data[gender]',
             '$data[Occupation]',
             '$data[Race]',
             '$data[Nationality]',
@@ -140,12 +96,11 @@ class Mange_model extends CI_Model
             '$data[address_province]',
             '$data[postal]',
             '$data[tell]',
-            '$data[email]',
-            '$data[profile]'
+            '$data[email]'
         )";
         return $this->db->query($sql);
     }
-    public function Update_customer($data)
+    public function update_customer($data)
     {
         $sql = "UPDATE Tbl_customer SET 
             Nickname = '$data[Nickname]',
@@ -153,6 +108,7 @@ class Mange_model extends CI_Model
             Fisrtname = '$data[Fisrtname]',
             Lastname = '$data[Lastname]',
             Birthday = '$data[Birthday]',
+            gender = '$data[gender]',
             Occupation = '$data[Occupation]',
             Race = '$data[Race]',
             Nationality = '$data[Nationality]',
@@ -170,40 +126,13 @@ class Mange_model extends CI_Model
             address_province = '$data[address_province]',
             postal = '$data[postal]',
             tell = '$data[tell]',
-            email= '$data[email]',
-            profile = '$data[profile]'
-                WHERE Customer_ID = '$data[Customer_ID]'";
+            email= '$data[email]'
+            WHERE ID_customer = '$data[ID_customer]'";
         return $this->db->query($sql);
     }
-    public function get_customer($data)
+    public function delete_customer($data)
     {
-        $WHERE = "";
-        if ($data['Customer_ID'] != '') {
-            $WHERE = "AND Customer_ID = '$data[Customer_ID]' ";
-        }
-        $sql = "SELETE * FROM Tbl_customer WHERE 1=1" . $WHERE;
-        return $this->db->query($sql)->result();
-    }
-    public function get_type()
-    {
-        $sql = "SELETE * FROM tbl_type";
-        return $this->db->query($sql)->result();
-    }
-    public function insert_type($data)
-    {
-        $sql = "INSERT INTO tbl_type
-                (
-                    name
-                )
-                VALUES
-                (
-                    '$data[name]'
-                )";
-        return $this->db->query($sql);
-    }
-    public function update_type($data)
-    {
-        $sql = "UPDATE tbl_type set name = '$data[name]' where id = '$data [id]' ";
+        $sql = "DELETE FROM Tbl_customer WHERE ID_customer = '$data[ID]'";
         return $this->db->query($sql);
     }
     public function insert_img($data)
@@ -226,6 +155,65 @@ class Mange_model extends CI_Model
                     '$data[filepath]',
                     '$data[extension]'
                 )";
+        return $this->db->query($sql);
+    }
+    public function insert_appointment($data)
+    {
+
+        $sql = "INSERT INTO `tbl_appointment`(ID_customer
+                                , ID_doctor
+                                , Status_nut
+                                , Date_nut
+                                , Remark
+                                , ID_room
+                                , ID_package
+                                , start_time
+                                , end_time
+                                ) 
+                        VALUES (
+                                  '$data[ID_customer]'
+                                , '$data[ID_doctor]'
+                                , 'นัดหมาย'
+                                , '$data[Date_nut] $data[start_time]'
+                                , '$data[Remark]'
+                                , '$data[ID_room]'
+                                , '$data[ID_package]'
+                                , '$data[start_time]'
+                                , '$data[end_time]')";
+        return $this->db->query($sql);
+    }
+    public function update_appointment($data)
+    {
+        $feild='';
+        if($data['Status_nut']){
+            $feild .=",Status_nut = '$data[Status_nut]'";
+        }
+        if($data['Date_nut']){
+            $feild .=",Date_nut = '$data[Date_nut] $data[start_time]'";
+        }
+        if($data['start_time']){
+            $feild .=",start_time = '$data[start_time]'";
+        }
+        if($data['end_time']){
+            $feild .=",end_time = '$data[end_time]'";
+        }
+        if($data['Remark']){
+            $feild .=",Remark = '$data[Remark]'";
+        }
+        if($data['Date_come']){
+            $feild .=",Date_come = '$data[Date_come]'";
+        }
+        if($data['Date_inspect']){
+            $feild .=",Date_inspect = '$data[Date_inspect]'";
+        }
+        if($data['Date_finish']){
+            $feild .=",Date_finish = '$data[Date_finish]'";
+        }
+
+        
+        $sql = "UPDATE tbl_appointment SET ID_nut = ID_nut
+                $feild
+                WHERE ID_nut =$data[ID_nut]";
         return $this->db->query($sql);
     }
 }

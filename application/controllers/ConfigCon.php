@@ -20,59 +20,52 @@ class ConfigCon extends CI_Controller
 	}
 	public function get_doctor()
 	{
-		if ($_SERVER["REQUEST_METHOD"] != 'GET') {
-			http_response_code(404);
-			return;
-		}
 		$respone = $this->Get_model->get_doctor($this->input->get());
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 	public function insert_doctor()
 	{
-		if ($_SERVER["REQUEST_METHOD"] != 'POST') {
-			http_response_code(404);
-			return;
-		}
 		$filepath = date("Ydmhis");
-		// echo print($_FILES['fileLicense']['name']);
-		// echo $name  = $_FILES['fileLicense']['name'];
-
-		for ($i = 0; $i <  count($_FILES['fileLicense']['name']); $i++) {
-			$config['allowed_types']  = 'jpg|jpeg|png|gif|pdf|xlsx|xls|zip|csv';
-			$config['upload_path'] = 'fileUpload/';
-			$config['file_name'] = $filepath;
-			$this->load->library('upload', $config); //เรียกใช้ library upload สำหรับอัฟโหลดรูป
-			$this->upload->initialize($config);
-			$this->upload->do_upload('files');
+		for ($i = 0; $i < $this->input->post('index'); $i++) {
+			$nameArray = explode('.', $_FILES['fileLicense' . $i]['name']);
+			foreach ($nameArray as $row) {
+				$file_extension = $row;
+			}
+			$newnamefilepath = uniqid() . "_img_" . date('Ymd');
+			$nameproperty = $newnamefilepath . '.' . $file_extension;
+			move_uploaded_file($_FILES['fileLicense' . $i]['tmp_name'], 'fileUpload/' . $nameproperty);
+			$data = [
+				"name"=>$newnamefilepath,
+				"id_type"=>'',
+				"id_rendezvous"=>'',
+				"id_customer"=>$this->input->post("ID_Doctor"),
+				"filepath"=>$nameproperty,
+				"extension"=>$file_extension,
+			];
+			// $this->Mange_model->insert_img($data);
 		}
-
-
-		// move_uploaded_file($_FILES['images']['tmp_name'], 'Img/' . $name);
-		//  echo	count($_FILES['fileLicense']['name']);
-		// if (isset($_FILES['fileLicense']['name'])) {
-		// $config['allowed_types']  = 'jpg|jpeg|png|gif|pdf|xlsx|xls|zip|csv';
-		// $config['upload_path'] = 'fileUpload/';
-		// $config['file_name'] = $filepath;
-		// $this->load->library('upload', $config); //เรียกใช้ library upload สำหรับอัฟโหลดรูป
-		// $this->upload->initialize($config);
-		// $this->upload->do_upload('files');
-		// }
-		// $_FILES['files']['name']
 		$respone = $this->Mange_model->insert_doctor($this->input->post());
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 	public function delete_doctor()
 	{
-
-		if ($_SERVER["REQUEST_METHOD"] != 'POST') {
-			http_response_code(404);
-			return;
-		}
 		$post = json_decode(file_get_contents('php://input'), true);
 		$this->Mange_model->delete_doctor($post);
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => '']);
+	}
+	public function get_room()
+	{
+		$respone = $this->Get_model->get_room();
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => $respone]);
+	}
+	public function get_package()
+	{
+		$respone = $this->Get_model->get_package();
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 }
