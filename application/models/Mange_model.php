@@ -28,7 +28,7 @@ class Mange_model extends CI_Model
 
     public function delete_doctor($data)
     {
-        echo $sql = "DELETE FROM tbl_doctor WHERE ID = '$data[ID]'";
+        $sql = "DELETE FROM tbl_doctor WHERE ID = '$data[ID]'";
         return $this->db->query($sql);
     }
     public function update_doctor($data)
