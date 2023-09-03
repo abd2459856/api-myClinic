@@ -184,36 +184,52 @@ class Mange_model extends CI_Model
     }
     public function update_appointment($data)
     {
-        $feild='';
-        if($data['Status_nut']){
-            $feild .=",Status_nut = '$data[Status_nut]'";
+        $feild = '';
+        if ($data['Status_nut']) {
+            $feild .= ",Status_nut = '$data[Status_nut]'";
         }
-        if($data['Date_nut']){
-            $feild .=",Date_nut = '$data[Date_nut] $data[start_time]'";
+        if ($data['Date_nut']) {
+            $feild .= ",Date_nut = '$data[Date_nut] $data[start_time]'";
         }
-        if($data['start_time']){
-            $feild .=",start_time = '$data[start_time]'";
+        if ($data['start_time']) {
+            $feild .= ",start_time = '$data[start_time]'";
         }
-        if($data['end_time']){
-            $feild .=",end_time = '$data[end_time]'";
+        if ($data['end_time']) {
+            $feild .= ",end_time = '$data[end_time]'";
         }
-        if($data['Remark']){
-            $feild .=",Remark = '$data[Remark]'";
+        if ($data['Remark']) {
+            $feild .= ",Remark = '$data[Remark]'";
         }
-        if($data['Date_come']){
-            $feild .=",Date_come = '$data[Date_come]'";
+        if ($data['Date_come']) {
+            $feild .= ",Date_come = '$data[Date_come]'";
         }
-        if($data['Date_inspect']){
-            $feild .=",Date_inspect = '$data[Date_inspect]'";
+        if ($data['Date_inspect']) {
+            $feild .= ",Date_inspect = '$data[Date_inspect]'";
         }
-        if($data['Date_finish']){
-            $feild .=",Date_finish = '$data[Date_finish]'";
+        if ($data['Date_finish']) {
+            $feild .= ",Date_finish = '$data[Date_finish]'";
         }
 
-        
+
         $sql = "UPDATE tbl_appointment SET ID_nut = ID_nut
                 $feild
                 WHERE ID_nut =$data[ID_nut]";
         return $this->db->query($sql);
+    }
+    public function get_img($data)
+    {
+        $Where = '';
+        if ($data['ID_customer']) {
+            $Where .= "AND ID_customer = '$data[ID_customer]' ";
+        }
+        if ($data['ID_nut']) {
+            $Where .= "AND ID_nut = '$data[ID_nut]' " ;
+        }
+        if ($data['ID_package']) {
+            $Where .= "AND ID_package = '$data[ID_package]' ";
+        }
+        
+        $sql = "SELECT * FROM `tbl_image` WHERE 1  $Where ";
+        return $this->db->query($sql)->result();
     }
 }

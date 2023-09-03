@@ -190,18 +190,18 @@ class Get_model extends CI_Model
     }
     public function group_treatment($data)
     {
-        $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save
-        FROM tbl_package_treat P
-        INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
-        LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
-        WHERE A.ID_customer ='$data[IDCus]'
-        GROUP BY p.ID_treat,p.treat_name
+            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,,A.ID_nut
+            FROM tbl_package_treat P
+            INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
+            LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
+            WHERE A.ID_customer ='$data[IDCus]'
+            GROUP BY p.ID_treat,p.treat_name
         ";
         return $this->db->query($sql)->result();
     }
     public function get_treatment($data)
     {
-        $sql = "SELECT p.ID_treat,p.treat_name,T.treatmens_detail,T.Date_save
+        $sql = "SELECT p.ID_treat,p.treat_name,T.treatmens_detail,T.Date_save,A.ID_nut,A.ID_package,A.ID_customer
         FROM tbl_package_treat P
         INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
         LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat

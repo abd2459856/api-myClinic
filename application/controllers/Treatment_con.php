@@ -12,11 +12,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 class Treatment_con extends CI_Controller
 {
+    private $infoget = "";
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Get_model');
         $this->load->model('Mange_model');
+        $this->infoget = $this->input->get();
     }
     public function get_treatment()
     {
@@ -33,7 +35,6 @@ class Treatment_con extends CI_Controller
     }
     public function profile_customer()
     {
-
         $respone = $this->Get_model->profile_customer($this->input->get());
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => $respone]);
@@ -75,11 +76,39 @@ class Treatment_con extends CI_Controller
     }
     public function delete_customer()
     {
-
-
         $post = json_decode(file_get_contents('php://input'), true);
         $this->Mange_model->delete_customer($post);
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => '']);
+    }
+    public function update_img()
+    {
+        for ($i = 0; $i < $this->input->post('index'); $i++) {
+            $nameArray = explode('.', $_FILES['Img' . $i]['name']);
+            foreach ($nameArray as $row) {
+                $file_extension = $row;
+            }
+            $newnamefilepath = uniqid() . "_img_" . date('Ymd');
+            $nameproperty = $newnamefilepath . '.' . $file_extension;
+            move_uploaded_file($_FILES['Img' . $i]['tmp_name'], 'fileUpload/' . $nameproperty);
+            $data = [
+                "name" => $newnamefilepath,
+                "id_type" => $this->input->post("ID_package"),
+                "id_rendezvous" => $this->input->post("ID_nut"),
+                "id_customer" => $this->input->post("ID_customer"),
+                "filepath" => $nameproperty,
+                "extension" => $file_extension,
+            ];
+            $this->Mange_model->insert_img($data);
+        }
+    }
+    public function get_img()
+    {
+        $data = [
+            "ID_customer"=> $this->infoget['ID_customer'],
+            "ID_nut"=> $this->infoget['ID_nut'],
+            "ID_package"=>$this->infoget['ID_package'],
+        ];
+        $this->Mange_model->get_img($data);
     }
 }

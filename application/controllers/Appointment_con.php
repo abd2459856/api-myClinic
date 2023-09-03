@@ -42,8 +42,6 @@ class Appointment_con extends CI_Controller
     }
     public function delete_customer()
     {
-
-
         $post = json_decode(file_get_contents('php://input'), true);
         $this->Mange_model->delete_customer($post);
         http_response_code(200);
