@@ -65,8 +65,11 @@ class ConfigCon extends CI_Controller
 	}
 	public function delete_doctor()
 	{
-		$post = json_decode(file_get_contents('php://input'), true);
-		$this->Mange_model->delete_doctor($post);
+		// $post = json_decode(file_get_contents('php://input'), true);
+		$data = [
+			"ID" => $this->info['ID'],
+		];
+		$this->Mange_model->delete_doctor($data);
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => '']);
 	}
