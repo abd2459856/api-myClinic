@@ -12,11 +12,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 class ConfigCon extends CI_Controller
 {
+	private $info = "";
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('Get_model');
 		$this->load->model('Mange_model');
+		$this->info = $this->input->post();
 	}
 	public function get_doctor()
 	{
@@ -36,18 +38,30 @@ class ConfigCon extends CI_Controller
 			$nameproperty = $newnamefilepath . '.' . $file_extension;
 			move_uploaded_file($_FILES['fileLicense' . $i]['tmp_name'], 'fileUpload/' . $nameproperty);
 			$data = [
-				"name"=>$newnamefilepath,
-				"id_type"=>'',
-				"id_rendezvous"=>'',
-				"id_customer"=>$this->input->post("ID_Doctor"),
-				"filepath"=>$nameproperty,
-				"extension"=>$file_extension,
+				"name" => $newnamefilepath,
+				"id_type" => '',
+				"id_rendezvous" => '',
+				"id_customer" => $this->input->post("ID_Doctor"),
+				"filepath" => $nameproperty,
+				"extension" => $file_extension,
 			];
 			// $this->Mange_model->insert_img($data);
 		}
 		$respone = $this->Mange_model->insert_doctor($this->input->post());
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
+	}
+	public function update_doctor()
+	{
+		$data = [
+			"Fisrtname" => $this->info['Fisrtname'],
+			"Lastname" => $this->info['Lastname'],
+			"ID_Doctor" => $this->info['ID_Doctor'],
+			"id" => $this->info['id'],
+		];
+		$this->Get_model->update_doctor($data);
+		http_response_code(200);
+		echo json_encode(array('result' => true));
 	}
 	public function delete_doctor()
 	{

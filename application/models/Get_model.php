@@ -13,6 +13,8 @@ class Get_model extends CI_Model
         $WHERE ='';
         if ($data['textSearch']) {
             $WHERE ="And (ID_Doctor like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
+        }else if($data['id']){
+            $WHERE ="AND id = '$data[id]' ";
         }
         $sql = "SELECT * FROM tbl_doctor Where 1=1 $WHERE ";
         return $this->db->query($sql)->result();
@@ -37,8 +39,9 @@ class Get_model extends CI_Model
     {
         $sql = "UPDATE tbl_doctor SET 
                 Fisrtname = '$data[Fisrtname]',
-                Lastname = '$data[Lastname]'
-                WHERE ID_doctor = '$data[ID_doctor]'";
+                Lastname = '$data[Lastname]',
+                ID_Doctor = '$data[ID_Doctor]'
+                WHERE id = '$data[id]'";
         return $this->db->query($sql);
     }
 
