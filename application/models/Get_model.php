@@ -150,14 +150,23 @@ class Get_model extends CI_Model
                 )";
         return $this->db->query($sql);
     }
-    public function get_room()
-    {
-        $sql = "SELECT * FROM tbl_room_treat";
+    public function get_room($data)
+    { 
+        $WHERE='';
+        if ($data['textSearch']) {
+            $WHERE ="And (Room_Name like '%$data[textSearch]%' or Room_Detail like '%$data[textSearch]%' or Room_Number like '%$data[textSearch]%')";
+        }
+        $sql = "SELECT * FROM tbl_room_treat WHERE 1=1 $WHERE";
         return $this->db->query($sql)->result();
     }
-    public function get_package()
+    public function get_package($data)
     {
-        $sql = "SELECT * FROM `tbl_package_treat`";
+        $WHERE='';
+        if ($data['textSearch']) {
+            $WHERE ="And (treat_name like '%$data[textSearch]%' or treat_detail like '%$data[textSearch]%' )";
+        }
+
+        $sql = "SELECT * FROM `tbl_package_treat` WHERE 1=1 $WHERE";
         return $this->db->query($sql)->result();
     }
     public function get_appointment($data)
@@ -190,7 +199,7 @@ class Get_model extends CI_Model
     }
     public function group_treatment($data)
     {
-            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,,A.ID_nut
+            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
             FROM tbl_package_treat P
             INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
             LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat

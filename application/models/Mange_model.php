@@ -252,4 +252,53 @@ class Mange_model extends CI_Model
         $sql2 = " SELECT LAST_INSERT_ID() as ID_treatments";
         return $this->db->query($sql2)->result();
     }
+    public function insert_package($data)
+    {
+        $sql = "INSERT INTO tbl_package_treat( treat_name, treat_detail, treat_status) 
+                VALUES ('$data[treat_name]','$data[treat_detail]','active')";
+        $this->db->query($sql);
+    }
+    public function update_package($data)
+    {
+        $feild = '';
+        if ($data['treat_status']) {
+            $feild .= ",treat_status = '$data[treat_status]'";
+        }
+        if ($data['treat_name']) {
+            $feild .= ",treat_name = '$data[treat_name]'";
+        }
+        if ($data['treat_detail']) {
+            $feild .= ",treat_detail = '$data[treat_detail]'";
+        }
+        echo $sql = "UPDATE tbl_package_treat SET ID_treat = ID_treat
+        $feild
+        WHERE ID_treat =$data[ID_treat]";
+        $this->db->query($sql);
+    }
+    public function insert_roomtreat($data)
+    {
+        $sql = "INSERT INTO tbl_room_treat( Room_Number, Room_Name, Room_Detail,Room_Status) 
+                VALUES ('$data[Room_Number]','$data[Room_Name]','$data[Room_Detail]','active')";
+        $this->db->query($sql);
+    }
+    public function update_roomtreat($data)
+    {
+        $feild = '';
+        if ($data['Room_Status']) {
+            $feild .= ",Room_Status = '$data[Room_Status]'";
+        }
+        if ($data['Room_Number']) {
+            $feild .= ",Room_Number = '$data[Room_Number]'";
+        }
+        if ($data['Room_Name']) {
+            $feild .= ",Room_Name = '$data[Room_Name]'";
+        }
+        if ($data['Room_Detail']) {
+            $feild .= ",Room_Detail = '$data[Room_Detail]'";
+        }
+        $sql = "UPDATE tbl_room_treat SET ID_room = ID_room
+        $feild
+        WHERE ID_room =$data[ID_room]";
+        $this->db->query($sql);
+    }
 }
