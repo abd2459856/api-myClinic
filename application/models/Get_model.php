@@ -201,11 +201,21 @@ class Get_model extends CI_Model
     }
     public function get_treatment($data)
     {
-        $sql = "SELECT p.ID_treat,p.treat_name,T.treatmens_detail,T.Date_save,A.ID_nut,A.ID_package,A.ID_customer
-        FROM tbl_package_treat P
-        INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
-        LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
-        WHERE A.ID_customer ='$data[IDCus]' and T.ID_pagekage_treat =$data[ID_treat]";
+        $Where = '';
+        if($data['ID_treat']){
+            $Where = "AND T.ID_pagekage_treat = '$data[ID_treat]'";
+        }
+        
+        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer 
+        FROM tbl_package_treat P 
+        INNER JOIN tbl_appointment A ON A.ID_package = p.ID_treat 
+        LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat 
+        WHERE A.ID_customer = '1'  $Where";
+        // $sql = "SELECT p.ID_treat,p.treat_name,T.treatmens_detail,T.Date_save,A.ID_nut,A.ID_package,A.ID_customer
+        // FROM tbl_package_treat P
+        // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
+        // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
+        // WHERE A.ID_customer ='$data[IDCus]' $Where ";
         return $this->db->query($sql)->result();
     }
 

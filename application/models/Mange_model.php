@@ -223,13 +223,33 @@ class Mange_model extends CI_Model
             $Where .= "AND ID_customer = '$data[ID_customer]' ";
         }
         if ($data['ID_nut']) {
-            $Where .= "AND ID_nut = '$data[ID_nut]' " ;
+            $Where .= "AND ID_nut = '$data[ID_nut]' ";
         }
         if ($data['ID_package']) {
             $Where .= "AND ID_package = '$data[ID_package]' ";
         }
-        
+
         $sql = "SELECT * FROM `tbl_image` WHERE 1  $Where ";
         return $this->db->query($sql)->result();
+    }
+    public function insert_treatmens($data)
+    {
+        $sql = "INSERT INTO tbl_treatments
+                (
+                    ID_customer,
+                    ID_pagekage_treat,
+                    treatmens_detail,
+                    Date_save
+                )
+                VALUES
+                (
+                    '$data[ID_customer]',
+                    '$data[ID_pagekage_treat]',
+                    '$data[treatmens_detail]',
+                    CURDATE()
+                )";
+        $this->db->query($sql);
+        $sql2 = " SELECT LAST_INSERT_ID() as ID_treatments";
+        return $this->db->query($sql2)->result();
     }
 }

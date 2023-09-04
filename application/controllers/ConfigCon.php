@@ -85,4 +85,5 @@ class ConfigCon extends CI_Controller
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
+	
 }
