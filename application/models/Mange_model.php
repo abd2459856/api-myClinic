@@ -42,63 +42,80 @@ class Mange_model extends CI_Model
 
     public function insert_customer($data)
     {
-        $sql = "INSERT INTO Tbl_customer
+        // $sql = "INSERT INTO Tbl_customer
+        // (
+        //     IDCard,
+        //     Nickname,
+        //     Prefix,
+        //     Fisrtname,
+        //     Lastname,
+        //     Birthday,
+        //     gender,
+        //     Occupation,
+        //     Race,
+        //     Nationality,
+        //     religion,
+        //     status_relationship,
+        //     weight,
+        //     height,
+        //     address_number,
+        //     address_moo,
+        //     address_village,
+        //     address_soi,
+        //     address_road,
+        //     address_subdistrict,
+        //     address_district,
+        //     address_province,
+        //     postal,
+        //     tell,
+        //     email
+        // )
+        // VALUES
+        // (
+        //     '$data[IDCard]',
+        //     '$data[Nickname]',
+        //     '$data[Prefix]',
+        //     '$data[Fisrtname]',
+        //     '$data[Lastname]',
+        //     '$data[Birthday]',
+        //     '$data[gender]',
+        //     '$data[Occupation]',
+        //     '$data[Race]',
+        //     '$data[Nationality]',
+        //     '$data[religion]',
+        //     '$data[status_relationship]',
+        //     '$data[weight]',
+        //     '$data[height]',
+        //     '$data[address_number]',
+        //     '$data[address_moo]',
+        //     '$data[address_village]',
+        //     '$data[address_soi]',
+        //     '$data[address_road]',
+        //     '$data[address_subdistrict]',
+        //     '$data[address_district]',
+        //     '$data[address_province]',
+        //     '$data[postal]',
+        //     '$data[tell]',
+       
+        // )";
+
+        $sql3 =     "INSERT INTO Tbl_customer
         (
             IDCard,
-            Nickname,
-            Prefix,
+            email,
             Fisrtname,
-            Lastname,
-            Birthday,
-            gender,
-            Occupation,
-            Race,
-            Nationality,
-            religion,
-            status_relationship,
-            weight,
-            height,
-            address_number,
-            address_moo,
-            address_village,
-            address_soi,
-            address_road,
-            address_subdistrict,
-            address_district,
-            address_province,
-            postal,
-            tell,
-            email
-        )
+            Lastname
+            )
         VALUES
         (
-            '$data[IDCard]',
-            '$data[Nickname]',
-            '$data[Prefix]',
+            '$data[IDCard]' ,
+            '$data[email]',
             '$data[Fisrtname]',
-            '$data[Lastname]',
-            '$data[Birthday]',
-            '$data[gender]',
-            '$data[Occupation]',
-            '$data[Race]',
-            '$data[Nationality]',
-            '$data[religion]',
-            '$data[status_relationship]',
-            '$data[weight]',
-            '$data[height]',
-            '$data[address_number]',
-            '$data[address_moo]',
-            '$data[address_village]',
-            '$data[address_soi]',
-            '$data[address_road]',
-            '$data[address_subdistrict]',
-            '$data[address_district]',
-            '$data[address_province]',
-            '$data[postal]',
-            '$data[tell]',
-            '$data[email]'
-        )";
-        return $this->db->query($sql);
+        '$data[Lastname]'
+            )";
+        $this->db->query($sql3);
+        $sql2 = "SELECT LAST_INSERT_ID() as ID_customer";
+        return $this->db->query($sql2)->result();
     }
     public function update_customer($data)
     {
@@ -213,7 +230,7 @@ class Mange_model extends CI_Model
 
         $sql = "UPDATE tbl_appointment SET ID_nut = ID_nut
                 $feild
-                WHERE ID_nut =$data[ID_nut]";
+                WHERE ID_nut = '$data[ID_nut]'";
         return $this->db->query($sql);
     }
     public function get_img($data)
