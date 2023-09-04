@@ -100,7 +100,7 @@ class Welcome extends CI_Controller
 	public function get_rendezvous()
 	{
 		$data = [
-			"id" =>  $this->infoget['id']
+			"ID_nut" =>  $this->infoget['ID_nut']
 		];
 		$get = $this->Get_model->get_rendezvous($data);
 		http_response_code(200);

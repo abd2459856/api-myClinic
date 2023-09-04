@@ -100,6 +100,8 @@ class Treatment_con extends CI_Controller
                 "extension" => $file_extension,
             ];
             $this->Mange_model->insert_img($data);
+            http_response_code(200);
+            echo json_encode(['status' => 'success', 'data' => '']);
         }
     }
     public function get_img()
@@ -110,5 +112,7 @@ class Treatment_con extends CI_Controller
             "ID_package"=>$this->infoget['ID_package'],
         ];
         $this->Mange_model->get_img($data);
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'data' => '']);
     }
 }

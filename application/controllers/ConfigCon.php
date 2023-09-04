@@ -57,7 +57,7 @@ class ConfigCon extends CI_Controller
 			"Fisrtname" => $this->info['Fisrtname'],
 			"Lastname" => $this->info['Lastname'],
 			"ID_Doctor" => $this->info['ID_Doctor'],
-			"id" => $this->info['id'],
+			"ID" => $this->info['ID'],
 		];
 		$this->Get_model->update_doctor($data);
 		http_response_code(200);

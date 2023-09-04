@@ -77,8 +77,10 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	// 'password' => '',
-	'password' => 'jmt12345',
+	'password' => '',
+	// 'password' => 'jmt12345',
+	
+	// 'database' => 'myclinick',
 	'database' => 'myClinic',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

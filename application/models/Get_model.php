@@ -13,8 +13,8 @@ class Get_model extends CI_Model
         $WHERE ='';
         if ($data['textSearch']) {
             $WHERE ="And (ID_Doctor like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
-        }else if($data['id']){
-            $WHERE ="AND id = '$data[id]' ";
+        }else if($data['ID']){
+            $WHERE ="AND ID = '$data[ID]' ";
         }
         $sql = "SELECT * FROM tbl_doctor Where 1=1 $WHERE ";
         return $this->db->query($sql)->result();
@@ -41,19 +41,19 @@ class Get_model extends CI_Model
                 Fisrtname = '$data[Fisrtname]',
                 Lastname = '$data[Lastname]',
                 ID_Doctor = '$data[ID_Doctor]'
-                WHERE id = '$data[id]'";
+                WHERE ID = '$data[ID]'";
         return $this->db->query($sql);
     }
 
     public function get_rendezvous($data)
     {
         $WHERE = "";
-        if ($data['id'] != '') {
-            $WHERE = "AND id = '$data[id]' ";
+        if ($data['ID_nut'] != '') {
+            $WHERE = "AND ID_nut = '$data[ID_nut]' ";
         }
-        $sql = "SELECT * FROM Tbl_rendezvous R
-                INNER JOIN tbl_customer C ON R.Customer_ID = C.Customer_ID
-                WHERE 1=1 " . $WHERE;
+        $sql = "SELECT * FROM tbl_appointment A 
+        INNER JOIN tbl_customer C ON A.ID_customer = C.ID_customer 
+        WHERE 1 $WHERE";
         return $this->db->query($sql)->result();
     }
 
