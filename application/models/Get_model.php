@@ -190,7 +190,7 @@ class Get_model extends CI_Model
     }
     public function group_treatment($data)
     {
-            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,,A.ID_nut
+            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
             FROM tbl_package_treat P
             INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
             LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat

@@ -31,7 +31,6 @@ class Treatment_con extends CI_Controller
     }
     public function group_treatment()
     {
-
         $respone = $this->Get_model->group_treatment($this->input->get());
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => $respone]);
