@@ -76,44 +76,62 @@ class ConfigCon extends CI_Controller
 	public function get_room()
 	{
 		$respone = $this->Get_model->get_room($this->input->get());
+		$newrespone = [];
+		foreach ($respone as $r) {
+			$newrespone[] = array(
+				"ID_room" =>$r->ID_room,
+				"Room_Name" =>$r->Room_Name,
+				"Room_Number" =>$r->Room_Number,
+				"Room_Detail" =>$r->Room_Detail,
+				"Room_Status" =>$r->Room_Status=='active'?true:false,
+			);
+		}
 		http_response_code(200);
-		echo json_encode(['status' => 'success', 'data' => $respone]);
+		echo json_encode(['status' => 'success', 'data' => $newrespone]);
 	}
 	public function get_package()
 	{
 		$respone = $this->Get_model->get_package($this->input->get());
+		$newrespone = [];
+		foreach ($respone as $r) {
+			$newrespone[] = array(
+				"ID_treat" =>$r->ID_treat,
+				"treat_name" =>$r->treat_name,
+				"treat_detail" =>$r->treat_detail,
+				"treat_status" =>$r->treat_status=='active'?true:false,
+			);
+		}
 		http_response_code(200);
-		echo json_encode(['status' => 'success', 'data' => $respone]);
+		echo json_encode(['status' => 'success', 'data' => $newrespone]);
 	}
 	public function insert_package()
 	{
 		$post = json_decode(file_get_contents('php://input'), true);
-        $respone = $this->Mange_model->insert_package($post);
-        http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => $respone]);
+		$respone = $this->Mange_model->insert_package($post);
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 	public function update_package()
-    {
+	{
 
-        $post = json_decode(file_get_contents('php://input'), true);
-        $respone = $this->Mange_model->update_package($post);
-        http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => '']);
-    }
+		$post = json_decode(file_get_contents('php://input'), true);
+		$respone = $this->Mange_model->update_package($post);
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => $post]);
+	}
 	public function insert_roomtreat()
 	{
 		$post = json_decode(file_get_contents('php://input'), true);
 		$respone =  $this->Mange_model->insert_roomtreat($post);
-        http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => '']);
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => '']);
 	}
 	public function update_roomtreat()
-    {
+	{
 
-        $post = json_decode(file_get_contents('php://input'), true);
-        $respone = $this->Mange_model->update_roomtreat($post);
-        http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => '']);
-    }
-	
+		$post = json_decode(file_get_contents('php://input'), true);
+		$respone = $this->Mange_model->update_roomtreat($post);
+		http_response_code(200);
+		echo json_encode(['status' => 'success', 'data' => '']);
+	}
 }
