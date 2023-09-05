@@ -200,13 +200,21 @@ class Get_model extends CI_Model
     }
     public function group_treatment($data)
     {
-            $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
-            FROM tbl_package_treat P
-            INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
-            LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
-            WHERE A.ID_customer ='$data[IDCus]'
-            GROUP BY p.ID_treat,p.treat_name
-        ";
+            $sql = "SELECT
+                        P.ID_treat
+                    ,P.treat_name
+                    ,(SELECT COUNT(1) FROM tbl_treatments WHERE ID_pagekage_treat =P.ID_treat and ID_customer=AP.ID_customer) as Amount
+                    ,(SELECT MAX(Date_save) FROM tbl_treatments WHERE ID_pagekage_treat =P.ID_treat and ID_customer=AP.ID_customer) as Date_save
+                FROM tbl_package_treat P 
+                INNER JOIN tbl_appointment AP ON P.ID_treat=AP.ID_package
+                WHERE AP.ID_customer ='$data[IDCus]'
+                GROUP BY  P.ID_treat,P.treat_name";
+            // $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
+            // FROM tbl_package_treat P
+            // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
+            // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
+            // WHERE A.ID_customer ='$data[IDCus]'
+            // GROUP BY p.ID_treat,p.treat_name";
         return $this->db->query($sql)->result();
     }
     public function get_treatment($data)
@@ -216,11 +224,22 @@ class Get_model extends CI_Model
             $Where = "AND T.ID_pagekage_treat = '$data[ID_treat]'";
         }
         
-        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer,T.ID_treatments,T.treatmens_detail,T.Date_save
-        FROM tbl_package_treat P 
-        INNER JOIN tbl_appointment A ON A.ID_package = p.ID_treat 
-        LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat 
-        WHERE A.ID_customer = '$data[IDCus]'  $Where";
+        $sql="SELECT
+                T.ID_treatments
+                ,T.ID_customer
+                ,T.ID_pagekage_treat
+                ,T.treatmens_detail
+                ,T.Date_save
+                ,P.treat_name
+            FROM tbl_treatments T
+            LEFT JOIN tbl_package_treat P ON T.ID_pagekage_treat =P.ID_treat
+            WHERE T.ID_customer = '$data[IDCus]'  $Where
+            ORDER BY T.Date_save DESC";
+        // $sql = "SELECT p.ID_treat,p.treat_name,T.treatmens_detail,T.Date_save,A.ID_nut,A.ID_package,A.ID_customer
+        // FROM tbl_package_treat P
+        // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
+        // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
+        // WHERE A.ID_customer ='$data[IDCus]' $Where ";
         return $this->db->query($sql)->result();
     }
 

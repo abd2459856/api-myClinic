@@ -397,7 +397,7 @@ class Mange_model extends CI_Model
         if ($data['treat_name']) {
             $feild .= ",treat_name = '$data[treat_name]'";
         }
-        if ($data['treat_detail']) {
+        if ($data['treat_detail']||$data['treat_detail']=="") {
             $feild .= ",treat_detail = '$data[treat_detail]'";
         }
         echo $sql = "UPDATE tbl_package_treat SET ID_treat = ID_treat
@@ -423,7 +423,7 @@ class Mange_model extends CI_Model
         if ($data['Room_Name']) {
             $feild .= ",Room_Name = '$data[Room_Name]'";
         }
-        if ($data['Room_Detail']) {
+        if ($data['Room_Detail']||$data['Room_Detail']=="") {
             $feild .= ",Room_Detail = '$data[Room_Detail]'";
         }
         $sql = "UPDATE tbl_room_treat SET ID_room = ID_room
