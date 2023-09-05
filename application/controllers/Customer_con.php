@@ -78,6 +78,7 @@ class Customer_con extends CI_Controller
     }
     public function Profile_insert_img()
     {
+        $this->Mange_model->Profile_deleteimg($this->input->post('ID_customer'));
         for ($i = 0; $i < $this->input->post('index'); $i++) {
             $nameArray = explode('.', $_FILES['Img' . $i]['name']);
             foreach ($nameArray as $row) {
@@ -93,6 +94,7 @@ class Customer_con extends CI_Controller
                 "id_customer" => $this->input->post('ID_customer'),
                 "filepath" => 'fileUpload/' . $nameproperty,
                 "extension" => $file_extension,
+                "Pro" => 1
             ];
             $this->Mange_model->insert_img($data);
             http_response_code(200);

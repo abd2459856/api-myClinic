@@ -120,6 +120,7 @@ class Treatment_con extends CI_Controller
                 "id_customer" => $this->info['ID_customer'],
                 "filepath" => $nameproperty,
                 "extension" => $file_extension,
+                "Pro" => 0
             ];
             $this->Mange_model->insert_img($data);
         }
