@@ -98,7 +98,7 @@ class Get_model extends CI_Model
     {
         $WHERE ='';
         if ($data['textSearch']) {
-            $WHERE ="And (ID_customer like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
+            $WHERE ="And (ID_customer like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%' or tell like '%$data[textSearch]%' or Nickname like '%$data[textSearch]%')";
         }
         if ($data['IDCus']) {
             $WHERE ="And ID_customer = '$data[IDCus]'";
@@ -216,7 +216,7 @@ class Get_model extends CI_Model
             $Where = "AND T.ID_pagekage_treat = '$data[ID_treat]'";
         }
         
-        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer 
+        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer,T.ID_treatments
         FROM tbl_package_treat P 
         INNER JOIN tbl_appointment A ON A.ID_package = p.ID_treat 
         LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat 

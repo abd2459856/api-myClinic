@@ -89,13 +89,13 @@ class Treatment_con extends CI_Controller
     public function get_img()
     {
         $data = [
-            "ID_customer" => $this->infoget['ID_customer'],
-            "ID_nut" => $this->infoget['ID_nut'],
-            "ID_package" => $this->infoget['ID_package'],
+            "id_customer" => $this->infoget['id_customer'],
+            "id_type" => $this->infoget['id_type'],
+            "id_rendezvous" => $this->infoget['id_rendezvous'],
         ];
-        $this->Mange_model->get_img($data);
+        $respone = $this->Mange_model->get_img($data);
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => '']);
+        echo json_encode(['status' => 'success', 'data' => $respone]);
     }
     public function insert_treatmens()
     {
@@ -118,7 +118,7 @@ class Treatment_con extends CI_Controller
                 "id_type" =>  $this->info['ID_pagekage_treat'],
                 "id_rendezvous" => $id[0]->ID_treatments,
                 "id_customer" => $this->info['ID_customer'],
-                "filepath" => $nameproperty,
+                "filepath" => 'fileUpload/' .$nameproperty,
                 "extension" => $file_extension,
                 "Pro" => 0
             ];

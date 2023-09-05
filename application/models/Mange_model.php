@@ -349,14 +349,14 @@ class Mange_model extends CI_Model
     public function get_img($data)
     {
         $Where = '';
-        if ($data['ID_customer']) {
-            $Where .= "AND ID_customer = '$data[ID_customer]' ";
+        if ($data['id_customer']) {
+            $Where .= "AND id_customer = '$data[id_customer]' ";
         }
-        if ($data['ID_nut']) {
-            $Where .= "AND ID_nut = '$data[ID_nut]' ";
+        if ($data['id_type']) {
+            $Where .= "AND id_type = '$data[id_type]' ";
         }
-        if ($data['ID_package']) {
-            $Where .= "AND ID_package = '$data[ID_package]' ";
+        if ($data['id_rendezvous']) {
+            $Where .= "AND id_rendezvous = '$data[id_rendezvous]' ";
         }
 
         $sql = "SELECT * FROM `tbl_image` WHERE 1  $Where ";
@@ -376,7 +376,7 @@ class Mange_model extends CI_Model
                     '$data[ID_customer]',
                     '$data[ID_pagekage_treat]',
                     '$data[treatmens_detail]',
-                    CURDATE()
+                    CURRENT_TIMESTAMP()
                 )";
         $this->db->query($sql);
         $sql2 = " SELECT LAST_INSERT_ID() as ID_treatments";
