@@ -44,6 +44,7 @@ class ConfigCon extends CI_Controller
 				"id_customer" => $this->input->post("ID_Doctor"),
 				"filepath" => $nameproperty,
 				"extension" => $file_extension,
+				"Pro" => 0
 			];
 			// $this->Mange_model->insert_img($data);
 		}

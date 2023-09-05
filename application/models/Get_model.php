@@ -103,7 +103,8 @@ class Get_model extends CI_Model
         if ($data['IDCus']) {
             $WHERE ="And ID_customer = '$data[IDCus]'";
         }
-        $sql = "SELECT * FROM tbl_customer Where 1=1 $WHERE ";
+        $sql = "SELECT c.*,(SELECT filepath FROM tbl_image i WHERE i.id_customer = c.ID_customer AND i.Pro = 1 ) as img_name 
+        FROM tbl_customer c Where 1=1 $WHERE ";
         return $this->db->query($sql)->result();
     }
     public function get_type()

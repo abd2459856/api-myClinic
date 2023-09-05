@@ -199,7 +199,8 @@ class Welcome extends CI_Controller
 				"id_rendezvous" => '',
 				"id_customer" => '',
 				"filepath" => 'Img/' . $nameproperty,
-				"extension" => $file_extension
+				"extension" => $file_extension,
+				"Pro" => 0
 			];
 			$this->Get_model->insert_img($data);
 			http_response_code(200);
@@ -240,6 +241,7 @@ class Welcome extends CI_Controller
 			"id_customer" => $this->info['id_customer'],
 			"filepath" => $this->info['filepath'],
 			"extension" => $this->info['extension'],
+			"Pro" => 0
 		];
 		$this->Get_model->insert_img($data);
 		http_response_code(200);

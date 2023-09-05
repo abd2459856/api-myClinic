@@ -57,7 +57,7 @@ class Customer_con extends CI_Controller
         $post = json_decode(file_get_contents('php://input'), true);
         $respone = $this->Mange_model->insert_customer($post);
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => $respone]);
+        echo json_encode(['status' => 'success', 'ID_customer' => $respone[0]->ID_customer]);
     }
     public function update_customer()
     {
@@ -75,5 +75,30 @@ class Customer_con extends CI_Controller
         $this->Mange_model->delete_customer($post);
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => '']);
+    }
+    public function Profile_insert_img()
+    {
+        $this->Mange_model->Profile_deleteimg($this->input->post('ID_customer'));
+        for ($i = 0; $i < $this->input->post('index'); $i++) {
+            $nameArray = explode('.', $_FILES['Img' . $i]['name']);
+            foreach ($nameArray as $row) {
+                $file_extension = $row;
+            }
+            $newnamefilepath = uniqid() . "_img_" . date('Ymd');
+            $nameproperty = $newnamefilepath . '.' . $file_extension;
+            move_uploaded_file($_FILES['Img' . $i]['tmp_name'], 'fileUpload/' . $nameproperty);
+            $data = [
+                "name" => $newnamefilepath,
+                "id_type" =>  '',
+                "id_rendezvous" => '',
+                "id_customer" => $this->input->post('ID_customer'),
+                "filepath" => 'fileUpload/' . $nameproperty,
+                "extension" => $file_extension,
+                "Pro" => 1
+            ];
+            $this->Mange_model->insert_img($data);
+            http_response_code(200);
+            echo json_encode(['status' => 'success', 'data' => '']);
+        }
     }
 }

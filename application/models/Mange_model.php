@@ -41,7 +41,133 @@ class Mange_model extends CI_Model
     }
 
     public function insert_customer($data)
+
     {
+        if ($data['IDCard']) {
+            $IDCard = $data['IDCard'];
+        } else {
+            $IDCard = '';
+        }
+        if ($data['Nickname']) {
+            $Nickname = $data['Nickname'];
+        } else {
+            $Nickname = '';
+        }
+        if ($data['Prefix']) {
+            $Prefix = $data['Prefix'];
+        } else {
+            $Prefix = '';
+        }
+        if ($data['Fisrtname']) {
+            $Fisrtname = $data['Fisrtname'];
+        } else {
+            $Fisrtname = '';
+        }
+        if ($data['Lastname']) {
+            $Lastname = $data['Lastname'];
+        } else {
+            $Lastname = '';
+        }
+        if ($data['Birthday']) {
+            $Birthday = $data['Birthday'];
+        } else {
+            $Birthday = '';
+        }
+        if ($data['gender']) {
+            $gender = $data['gender'];
+        } else {
+            $gender = '';
+        }
+        if ($data['Occupation']) {
+            $Occupation = $data['Occupation'];
+        } else {
+            $Occupation = '';
+        }
+        if ($data['Race']) {
+            $Race = $data['Race'];
+        } else {
+            $Race = '';
+        }
+        if ($data['Nationality']) {
+            $Nationality = $data['Nationality'];
+        } else {
+            $Nationality = '';
+        }
+        if ($data['religion']) {
+            $religion = $data['religion'];
+        } else {
+            $religion = '';
+        }
+        if ($data['status_relationship']) {
+            $status_relationship = $data['status_relationship'];
+        } else {
+            $status_relationship = '';
+        }
+        if ($data['weight']) {
+            $weight = $data['weight'];
+        } else {
+            $weight = '';
+        }
+        if ($data['height']) {
+            $height = $data['height'];
+        } else {
+            $height = '';
+        }
+        if ($data['address_number']) {
+            $address_number = $data['address_number'];
+        } else {
+            $address_number = '';
+        }
+        if ($data['address_moo']) {
+            $address_moo = $data['address_moo'];
+        } else {
+            $address_moo = '';
+        }
+        if ($data['address_village']) {
+            $address_village = $data['address_village'];
+        } else {
+            $address_village = '';
+        }
+        if ($data['address_soi']) {
+            $address_soi = $data['address_soi'];
+        } else {
+            $address_soi = '';
+        }
+        if ($data['address_road']) {
+            $address_road = $data['address_road'];
+        } else {
+            $address_road = '';
+        }
+        if ($data['address_subdistrict']) {
+            $address_subdistrict = $data['address_subdistrict'];
+        } else {
+            $address_subdistrict = '';
+        }
+        if ($data['address_district']) {
+            $address_district = $data['address_district'];
+        } else {
+            $address_district = '';
+        }
+        if ($data['address_province']) {
+            $address_province = $data['address_province'];
+        } else {
+            $address_province = '';
+        }
+        if ($data['postal']) {
+            $postal = $data['postal'];
+        } else {
+            $postal = '';
+        }
+        if ($data['tell']) {
+            $tell = $data['tell'];
+        } else {
+            $tell = '';
+        }
+        if ($data['email']) {
+            $email = $data['email'];
+        } else {
+            $email = '';
+        }
         $sql = "INSERT INTO Tbl_customer
         (
             IDCard,
@@ -72,33 +198,35 @@ class Mange_model extends CI_Model
         )
         VALUES
         (
-            '$data[IDCard]',
-            '$data[Nickname]',
-            '$data[Prefix]',
-            '$data[Fisrtname]',
-            '$data[Lastname]',
-            '$data[Birthday]',
-            '$data[gender]',
-            '$data[Occupation]',
-            '$data[Race]',
-            '$data[Nationality]',
-            '$data[religion]',
-            '$data[status_relationship]',
-            '$data[weight]',
-            '$data[height]',
-            '$data[address_number]',
-            '$data[address_moo]',
-            '$data[address_village]',
-            '$data[address_soi]',
-            '$data[address_road]',
-            '$data[address_subdistrict]',
-            '$data[address_district]',
-            '$data[address_province]',
-            '$data[postal]',
-            '$data[tell]',
-            '$data[email]'
+            '$IDCard',
+            '$Nickname',
+            '$Prefix',
+            '$Fisrtname',
+            '$Lastname',
+            '$Birthday',
+            '$gender',
+            '$Occupation',
+            '$Race',
+            '$Nationality',
+            '$religion',
+            '$status_relationship',
+            '$weight',
+            '$height',
+            '$address_number',
+            '$address_moo',
+            '$address_village',
+            '$address_soi',
+            '$address_road',
+            '$address_subdistrict',
+            '$address_district',
+            '$address_province',
+            '$postal',
+            '$tell',
+            '$email'
         )";
-        return $this->db->query($sql);
+        $this->db->query($sql);
+        $sql2 = "SELECT LAST_INSERT_ID() as ID_customer";
+        return $this->db->query($sql2)->result();
     }
     public function update_customer($data)
     {
@@ -144,7 +272,8 @@ class Mange_model extends CI_Model
                     id_rendezvous,
                     id_customer,
                     filepath,
-                    extension
+                    extension,
+                    Pro
                 )
                 VALUES
                 (
@@ -153,7 +282,8 @@ class Mange_model extends CI_Model
                     '$data[id_rendezvous]',
                     '$data[id_customer]',
                     '$data[filepath]',
-                    '$data[extension]'
+                    '$data[extension]',
+                    '$data[Pro]'
                 )";
         return $this->db->query($sql);
     }
@@ -213,7 +343,7 @@ class Mange_model extends CI_Model
 
         $sql = "UPDATE tbl_appointment SET ID_nut = ID_nut
                 $feild
-                WHERE ID_nut =$data[ID_nut]";
+                WHERE ID_nut = '$data[ID_nut]'";
         return $this->db->query($sql);
     }
     public function get_img($data)
@@ -299,6 +429,11 @@ class Mange_model extends CI_Model
         $sql = "UPDATE tbl_room_treat SET ID_room = ID_room
         $feild
         WHERE ID_room =$data[ID_room]";
+        $this->db->query($sql);
+    }
+    public function Profile_deleteimg($ID_customer)
+    {
+        $sql = "DELETE FROM tbl_image WHERE Pro = '1' AND id_customer = '$ID_customer' ";
         $this->db->query($sql);
     }
 }
