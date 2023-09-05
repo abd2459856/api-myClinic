@@ -216,7 +216,7 @@ class Get_model extends CI_Model
             $Where = "AND T.ID_pagekage_treat = '$data[ID_treat]'";
         }
         
-        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer,T.ID_treatments
+        $sql="SELECT p.ID_treat,p.treat_name,A.ID_nut,A.ID_package,A.ID_customer,T.ID_treatments,T.treatmens_detail,T.Date_save
         FROM tbl_package_treat P 
         INNER JOIN tbl_appointment A ON A.ID_package = p.ID_treat 
         LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat 
