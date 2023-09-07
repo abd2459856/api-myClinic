@@ -37,30 +37,24 @@ class ConfigCon extends CI_Controller
 			$newnamefilepath = uniqid() . "_img_" . date('Ymd');
 			$nameproperty = $newnamefilepath . '.' . $file_extension;
 			move_uploaded_file($_FILES['fileLicense' . $i]['tmp_name'], 'fileUpload/' . $nameproperty);
+			$filepath = 'fileUpload/' . $nameproperty;
 			$data = [
 				"name" => $newnamefilepath,
 				"id_type" => '',
 				"id_rendezvous" => '',
 				"id_customer" => $this->input->post("ID_Doctor"),
-				"filepath" => $nameproperty,
+				"filepath" => $filepath,
 				"extension" => $file_extension,
 				"Pro" => 0
 			];
 			$this->Mange_model->insert_img($data);
 		}
-		$respone = $this->Mange_model->insert_doctor($this->input->post(),$newnamefilepath);
+		$respone = $this->Mange_model->insert_doctor($this->input->post(), $filepath);
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 	public function update_doctor()
 	{
-		// $data = [
-		// 	"Fisrtname" => $this->info['Fisrtname'],
-		// 	"Lastname" => $this->info['Lastname'],
-		// 	"ID_Doctor" => $this->info['ID_Doctor'],
-		// 	"Status" => $this->info['Status'],
-		// 	"ID" => $this->info['ID'],
-		// ];
 		$post = json_decode(file_get_contents('php://input'), true);
 		$this->Mange_model->update_doctor($post);
 		http_response_code(200);
@@ -82,11 +76,11 @@ class ConfigCon extends CI_Controller
 		$newrespone = [];
 		foreach ($respone as $r) {
 			$newrespone[] = array(
-				"ID_room" =>$r->ID_room,
-				"Room_Name" =>$r->Room_Name,
-				"Room_Number" =>$r->Room_Number,
-				"Room_Detail" =>$r->Room_Detail,
-				"Room_Status" =>$r->Room_Status=='active'?true:false,
+				"ID_room" => $r->ID_room,
+				"Room_Name" => $r->Room_Name,
+				"Room_Number" => $r->Room_Number,
+				"Room_Detail" => $r->Room_Detail,
+				"Room_Status" => $r->Room_Status == 'active' ? true : false,
 			);
 		}
 		http_response_code(200);
@@ -98,10 +92,10 @@ class ConfigCon extends CI_Controller
 		$newrespone = [];
 		foreach ($respone as $r) {
 			$newrespone[] = array(
-				"ID_treat" =>$r->ID_treat,
-				"treat_name" =>$r->treat_name,
-				"treat_detail" =>$r->treat_detail,
-				"treat_status" =>$r->treat_status=='active'?true:false,
+				"ID_treat" => $r->ID_treat,
+				"treat_name" => $r->treat_name,
+				"treat_detail" => $r->treat_detail,
+				"treat_status" => $r->treat_status == 'active' ? true : false,
 			);
 		}
 		http_response_code(200);
