@@ -16,6 +16,9 @@ class Get_model extends CI_Model
         }else if($data['ID']){
             $WHERE ="AND ID = '$data[ID]' ";
         }
+        if ($data['status']) {
+            $WHERE ="And Status ='$data[status]'";
+        }
         $sql = "SELECT * FROM tbl_doctor Where 1=1 $WHERE ";
         return $this->db->query($sql)->result();
     }
@@ -157,6 +160,9 @@ class Get_model extends CI_Model
         if ($data['textSearch']) {
             $WHERE ="And (Room_Name like '%$data[textSearch]%' or Room_Detail like '%$data[textSearch]%' or Room_Number like '%$data[textSearch]%')";
         }
+        if ($data['status']) {
+            $WHERE ="And Room_Status ='$data[status]'";
+        }
         $sql = "SELECT * FROM tbl_room_treat WHERE 1=1 $WHERE";
         return $this->db->query($sql)->result();
     }
@@ -166,6 +172,9 @@ class Get_model extends CI_Model
         if ($data['textSearch']) {
             $WHERE ="And (treat_name like '%$data[textSearch]%' or treat_detail like '%$data[textSearch]%' )";
         }
+        if ($data['status']) {
+            $WHERE ="And treat_status ='$data[status]'";
+        }
 
         $sql = "SELECT * FROM `tbl_package_treat` WHERE 1=1 $WHERE";
         return $this->db->query($sql)->result();
@@ -174,7 +183,7 @@ class Get_model extends CI_Model
     {
         $WHERE ='';
         if ($data['textSearch']) {
-            $WHERE .="And (N.ID_customer  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%')";
+            $WHERE .="And (N.ID_customer  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%' OR C.tell like '%$data[textSearch]%')";
         }
         if ($data['dateStart']) {
             $WHERE .="And DATE(N.Date_nut) >= '$data[dateStart]'";
@@ -186,6 +195,8 @@ class Get_model extends CI_Model
         $sql = "SELECT N.* 
         ,CONCAT(C.Fisrtname, ' ', C.Lastname) AS C_Name
         ,CONCAT( D.Fisrtname , ' ' ,D.Lastname) AS D_Name
+        ,C.tell
+        ,(SELECT filepath FROM tbl_image i WHERE i.id_customer = C.ID_customer AND i.Pro = 1 ) as img_name 
         FROM tbl_appointment N 
         LEFT JOIN tbl_customer C ON N.ID_customer =C.ID_customer
         LEFT JOIN tbl_doctor D ON N.ID_doctor =D.ID
@@ -240,7 +251,7 @@ class Get_model extends CI_Model
         // FROM tbl_package_treat P
         // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
         // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
-        // WHERE A.ID_customer ='$data[IDCus]' $Where ";
+        // WHERE A.ID_customer ='$data[]' $Where ";
         return $this->db->query($sql)->result();
     }
 

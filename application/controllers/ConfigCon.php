@@ -46,21 +46,23 @@ class ConfigCon extends CI_Controller
 				"extension" => $file_extension,
 				"Pro" => 0
 			];
-			// $this->Mange_model->insert_img($data);
+			$this->Mange_model->insert_img($data);
 		}
-		$respone = $this->Mange_model->insert_doctor($this->input->post());
+		$respone = $this->Mange_model->insert_doctor($this->input->post(),$newnamefilepath);
 		http_response_code(200);
 		echo json_encode(['status' => 'success', 'data' => $respone]);
 	}
 	public function update_doctor()
 	{
-		$data = [
-			"Fisrtname" => $this->info['Fisrtname'],
-			"Lastname" => $this->info['Lastname'],
-			"ID_Doctor" => $this->info['ID_Doctor'],
-			"ID" => $this->info['ID'],
-		];
-		$this->Get_model->update_doctor($data);
+		// $data = [
+		// 	"Fisrtname" => $this->info['Fisrtname'],
+		// 	"Lastname" => $this->info['Lastname'],
+		// 	"ID_Doctor" => $this->info['ID_Doctor'],
+		// 	"Status" => $this->info['Status'],
+		// 	"ID" => $this->info['ID'],
+		// ];
+		$post = json_decode(file_get_contents('php://input'), true);
+		$this->Mange_model->update_doctor($post);
 		http_response_code(200);
 		echo json_encode(array('result' => true));
 	}

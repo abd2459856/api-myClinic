@@ -7,21 +7,23 @@ ini_set('memory_limit', '-1');
 class Mange_model extends CI_Model
 {
 
-    public function insert_doctor($data)
+    public function insert_doctor($data,$License)
     {
         $sql = "INSERT INTO tbl_doctor
                 (
                     ID_Doctor,
                     Fisrtname,
                     Lastname,
-                    Status
+                    Status,
+                    License
                 )
                 VALUES
                 (
                     '$data[ID_Doctor]',
                     '$data[Fisrtname]',
                     '$data[Lastname]',
-                    '1'
+                    '1',
+                    '$License'
                 )";
         return $this->db->query($sql);
     }
@@ -33,10 +35,26 @@ class Mange_model extends CI_Model
     }
     public function update_doctor($data)
     {
-        $sql = "UPDATE tbl_doctor SET 
-                Fisrtname = '$data[Fisrtname]',
-                Lastname = '$data[Lastname]'
-                WHERE ID_doctor = '$data[ID_doctor]'";
+        $feild = '';
+        if ($data['Fisrtname']) {
+            $feild .= ",Fisrtname = '$data[Fisrtname]'";
+        }
+        if ($data['Lastname']) {
+            $feild .= ",Lastname = '$data[Lastname]'";
+        }
+        if ($data['Status']|| $data['Status']==0) {
+            $feild .= ",Status = '$data[Status]'";
+        }
+        if ($data['License']) {
+            $feild .= ",License = '$data[License]'";
+        }
+        if ($data['ID_Doctor']) {
+            $feild .= ",ID_Doctor = '$data[ID_Doctor]'";
+        }
+
+        $sql = "UPDATE tbl_doctor SET ID=ID
+                $feild
+                WHERE ID = '$data[ID]'";
         return $this->db->query($sql);
     }
 
