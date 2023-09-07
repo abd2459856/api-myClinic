@@ -195,7 +195,7 @@ class Get_model extends CI_Model
     public function profile_customer($data)
     {
         $sql = "SELECT C.Nickname,C.ID_customer,C.email,C.profile,C.tell, CONCAT(C.Fisrtname, ' ', C.Lastname) AS Name,(SELECT MAX(Date_nut) FROM `tbl_appointment` WHERE ID_customer =C.ID_customer) as Date_nut FROM `tbl_customer` C
-        WHERE C.ID_customer =$data[IDCus];";
+        WHERE C.ID_customer = '$data[IDCus]' ";
         return $this->db->query($sql)->result();
     }
     public function group_treatment($data)
@@ -231,6 +231,7 @@ class Get_model extends CI_Model
                 ,T.treatmens_detail
                 ,T.Date_save
                 ,P.treat_name
+                ,p.ID_treat
             FROM tbl_treatments T
             LEFT JOIN tbl_package_treat P ON T.ID_pagekage_treat =P.ID_treat
             WHERE T.ID_customer = '$data[IDCus]'  $Where

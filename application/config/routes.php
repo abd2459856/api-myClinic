@@ -69,5 +69,7 @@ $route['appointment/update'] = 'Appointment_con/update_appointment';
 $route['appointment/insert'] = 'Appointment_con/insert_appointment';
 $route['treatment'] = 'Treatment_con/get_treatment';
 $route['treatment/group'] = 'Treatment_con/group_treatment';
+$route['customer/update_status'] =  'Customer_con/update_status';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

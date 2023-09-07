@@ -436,4 +436,9 @@ class Mange_model extends CI_Model
         $sql = "DELETE FROM tbl_image WHERE Pro = '1' AND id_customer = '$ID_customer' ";
         $this->db->query($sql);
     }
+    public function update_status($data)
+    {
+        $sql = "UPDATE tbl_customer SET status = '$data[status]' WHERE ID_customer = '$data[ID_customer]' ";
+        $this->db->query($sql);
+    }
 }

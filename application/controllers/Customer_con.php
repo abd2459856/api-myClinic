@@ -22,8 +22,20 @@ class Customer_con extends CI_Controller
     {
 
         $respone = $this->Get_model->get_customer($this->input->get());
+        $newrespone = [];
+        foreach ($respone as $r) {
+            $newrespone[] = array(
+                "ID_customer" => $r->ID_customer,
+                "Nickname" => $r->Nickname,
+                "tell" => $r->tell,
+                "status" => $r->status == '1' ? true : false,
+                "Lastname" => $r->Lastname,
+                "Fisrtname" => $r->Fisrtname,
+                "img_name" => $r->img_name,
+            );
+        }
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => $respone]);
+        echo json_encode(['status' => 'success', 'data' => $respone, 'newrespone'=> $newrespone]);
     }
     public function profile_customer()
     {
@@ -100,5 +112,15 @@ class Customer_con extends CI_Controller
             http_response_code(200);
             echo json_encode(['status' => 'success', 'data' => '']);
         }
+    }
+    public function update_status()
+    {
+        $data = [
+            "ID_customer" => $this->input->post('ID_customer'),
+            "status" => $this->input->post('status'),
+        ];
+        $this->Mange_model->update_status($data);
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'data' => '']);
     }
 }
