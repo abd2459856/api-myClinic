@@ -420,7 +420,7 @@ class Mange_model extends CI_Model
         }
         echo $sql = "UPDATE tbl_package_treat SET ID_treat = ID_treat
         $feild
-        WHERE ID_treat =$data[ID_treat]";
+        WHERE ID_treat = '$data[ID_treat]'";
         $this->db->query($sql);
     }
     public function insert_roomtreat($data)
@@ -446,7 +446,7 @@ class Mange_model extends CI_Model
         }
         $sql = "UPDATE tbl_room_treat SET ID_room = ID_room
         $feild
-        WHERE ID_room =$data[ID_room]";
+        WHERE ID_room = '$data[ID_room]' ";
         $this->db->query($sql);
     }
     public function Profile_deleteimg($ID_customer)
