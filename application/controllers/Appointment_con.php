@@ -47,4 +47,11 @@ class Appointment_con extends CI_Controller
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => '']);
     }
+    public function get_expenses()
+    {
+
+        $respone = $this->Get_model->get_expenses($this->input->get());
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'data' => $respone]);
+    }
 }

@@ -254,5 +254,13 @@ class Get_model extends CI_Model
         // WHERE A.ID_customer ='$data[]' $Where ";
         return $this->db->query($sql)->result();
     }
+    public function get_expenses($data)
+    {
+        $sql="SELECT t.*,p.treat_name,CONVERT(p.treat_price, FLOAT)as treat_price
+        FROM tbl_treatments t
+        LEFT JOIN tbl_package_treat p on p.ID_treat = t.ID_pagekage_treat
+        WHERE DATE(t.Date_save) ='2023-09-21' and t.ID_customer ='C23090004'";
+        return $this->db->query($sql)->result();
+    }
 
 }

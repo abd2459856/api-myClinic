@@ -95,6 +95,7 @@ class ConfigCon extends CI_Controller
 				"ID_treat" => $r->ID_treat,
 				"treat_name" => $r->treat_name,
 				"treat_detail" => $r->treat_detail,
+				"treat_price" => $r->treat_price,
 				"treat_status" => $r->treat_status == 'active' ? true : false,
 			);
 		}
