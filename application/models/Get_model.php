@@ -10,14 +10,14 @@ class Get_model extends CI_Model
 
     public function get_doctor($data)
     {
-        $WHERE ='';
+        $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE ="And (ID_Doctor like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
-        }else if($data['ID']){
-            $WHERE ="AND ID = '$data[ID]' ";
+            $WHERE = "And (ID_Doctor like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%')";
+        } else if ($data['ID']) {
+            $WHERE = "AND ID = '$data[ID]' ";
         }
         if ($data['status']) {
-            $WHERE ="And Status ='$data[status]'";
+            $WHERE = "And Status ='$data[status]'";
         }
         $sql = "SELECT * FROM tbl_doctor Where 1=1 $WHERE ";
         return $this->db->query($sql)->result();
@@ -95,16 +95,16 @@ class Get_model extends CI_Model
                     Savedate = '$data[Savedate]'
                 WHERE 	id = '$data[id]' ";
     }
- 
-   
+
+
     public function get_customer($data)
     {
-        $WHERE ='';
+        $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE ="And (ID_customer like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%' or tell like '%$data[textSearch]%' or Nickname like '%$data[textSearch]%')";
+            $WHERE = "And (ID_customer like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%' or tell like '%$data[textSearch]%' or Nickname like '%$data[textSearch]%')";
         }
         if ($data['IDCus']) {
-            $WHERE ="And ID_customer = '$data[IDCus]'";
+            $WHERE = "And ID_customer = '$data[IDCus]'";
         }
         $sql = "SELECT c.*,(SELECT filepath FROM tbl_image i WHERE i.id_customer = c.ID_customer AND i.Pro = 1 ) as img_name 
         FROM tbl_customer c Where 1=1 $WHERE ";
@@ -155,25 +155,25 @@ class Get_model extends CI_Model
         return $this->db->query($sql);
     }
     public function get_room($data)
-    { 
-        $WHERE='';
+    {
+        $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE ="And (Room_Name like '%$data[textSearch]%' or Room_Detail like '%$data[textSearch]%' or Room_Number like '%$data[textSearch]%')";
+            $WHERE = "And (Room_Name like '%$data[textSearch]%' or Room_Detail like '%$data[textSearch]%' or Room_Number like '%$data[textSearch]%')";
         }
         if ($data['status']) {
-            $WHERE ="And Room_Status ='$data[status]'";
+            $WHERE = "And Room_Status ='$data[status]'";
         }
         $sql = "SELECT * FROM tbl_room_treat WHERE 1=1 $WHERE";
         return $this->db->query($sql)->result();
     }
     public function get_package($data)
     {
-        $WHERE='';
+        $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE ="And (treat_name like '%$data[textSearch]%' or treat_detail like '%$data[textSearch]%' )";
+            $WHERE = "And (treat_name like '%$data[textSearch]%' or treat_detail like '%$data[textSearch]%' )";
         }
         if ($data['status']) {
-            $WHERE ="And treat_status ='$data[status]'";
+            $WHERE = "And treat_status ='$data[status]'";
         }
 
         $sql = "SELECT * FROM `tbl_package_treat` WHERE 1=1 $WHERE";
@@ -181,15 +181,15 @@ class Get_model extends CI_Model
     }
     public function get_appointment($data)
     {
-        $WHERE ='';
+        $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE .="And (N.ID_customer  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%' OR C.tell like '%$data[textSearch]%')";
+            $WHERE .= "And (N.ID_customer  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%' OR C.tell like '%$data[textSearch]%')";
         }
         if ($data['dateStart']) {
-            $WHERE .="And DATE(N.Date_nut) >= '$data[dateStart]'";
+            $WHERE .= "And DATE(N.Date_nut) >= '$data[dateStart]'";
         }
         if ($data['dateEnd']) {
-            $WHERE .="And DATE(N.Date_nut) <= '$data[dateEnd]'";
+            $WHERE .= "And DATE(N.Date_nut) <= '$data[dateEnd]'";
         }
 
         $sql = "SELECT N.* 
@@ -211,7 +211,7 @@ class Get_model extends CI_Model
     }
     public function group_treatment($data)
     {
-            $sql = "SELECT
+        $sql = "SELECT
                         P.ID_treat
                     ,P.treat_name
                     ,(SELECT COUNT(1) FROM tbl_treatments WHERE ID_pagekage_treat =P.ID_treat and ID_customer=AP.ID_customer) as Amount
@@ -220,22 +220,22 @@ class Get_model extends CI_Model
                 INNER JOIN tbl_appointment AP ON P.ID_treat=AP.ID_package
                 WHERE AP.ID_customer ='$data[IDCus]'
                 GROUP BY  P.ID_treat,P.treat_name";
-            // $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
-            // FROM tbl_package_treat P
-            // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
-            // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
-            // WHERE A.ID_customer ='$data[IDCus]'
-            // GROUP BY p.ID_treat,p.treat_name";
+        // $sql = "SELECT p.ID_treat,p.treat_name,COUNT(T.ID_treatments) Amount,MAX(T.Date_save) as Date_save,A.ID_nut
+        // FROM tbl_package_treat P
+        // INNER JOIN tbl_appointment A ON A.ID_package =p.ID_treat
+        // LEFT JOIN tbl_treatments T ON A.ID_package = T.ID_pagekage_treat
+        // WHERE A.ID_customer ='$data[IDCus]'
+        // GROUP BY p.ID_treat,p.treat_name";
         return $this->db->query($sql)->result();
     }
     public function get_treatment($data)
     {
         $Where = '';
-        if($data['ID_treat']){
+        if ($data['ID_treat']) {
             $Where = "AND T.ID_pagekage_treat = '$data[ID_treat]'";
         }
-        
-        $sql="SELECT
+
+        $sql = "SELECT
                 T.ID_treatments
                 ,T.ID_customer
                 ,T.ID_pagekage_treat
@@ -254,5 +254,13 @@ class Get_model extends CI_Model
         // WHERE A.ID_customer ='$data[]' $Where ";
         return $this->db->query($sql)->result();
     }
+    public function Export_Excel($ID_customer)
+    {
+        $sql = "SELECT C.*,T.treatmens_detail,P.treat_name FROM tbl_treatments T
+        INNER JOIN tbl_customer C ON T.ID_customer = C.ID_customer
+        INNER JOIN tbl_package_treat P ON T.ID_pagekage_treat = P.ID_treat
+        WHERE C.ID_customer = '$ID_customer'";
 
+        return $this->db->query($sql)->result();
+    }
 }

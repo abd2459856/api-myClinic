@@ -35,7 +35,7 @@ class Customer_con extends CI_Controller
             );
         }
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'data' => $respone, 'newrespone'=> $newrespone]);
+        echo json_encode(['status' => 'success', 'data' => $respone, 'newrespone' => $newrespone]);
     }
     public function profile_customer()
     {
@@ -122,5 +122,11 @@ class Customer_con extends CI_Controller
         $this->Mange_model->update_status($data);
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => '']);
+    }
+    public function Export_Excel()
+    {
+        $ID_customer = $this->input->get('ID_customer');
+        $data['Table'] = $this->Get_model->Export_Excel($ID_customer);
+        $this->load->view("Export_Excel", $data);
     }
 }
