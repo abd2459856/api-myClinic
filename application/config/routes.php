@@ -67,6 +67,7 @@ $route['customer/profile'] = 'Customer_con/profile_customer';
 $route['appointment'] = 'Appointment_con/get_appointment';
 $route['appointment/update'] = 'Appointment_con/update_appointment';
 $route['appointment/insert'] = 'Appointment_con/insert_appointment';
+$route['appointment/expenses'] = 'Appointment_con/get_expenses';
 $route['treatment'] = 'Treatment_con/get_treatment';
 $route['treatment/group'] = 'Treatment_con/group_treatment';
 $route['customer/update_status'] =  'Customer_con/update_status';

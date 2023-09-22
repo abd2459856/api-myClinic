@@ -402,8 +402,8 @@ class Mange_model extends CI_Model
     }
     public function insert_package($data)
     {
-        $sql = "INSERT INTO tbl_package_treat( treat_name, treat_detail, treat_status) 
-                VALUES ('$data[treat_name]','$data[treat_detail]','active')";
+        $sql = "INSERT INTO tbl_package_treat( treat_name, treat_detail, treat_status,treat_price) 
+                VALUES ('$data[treat_name]','$data[treat_detail]','active','$data[treat_price]')";
         $this->db->query($sql);
     }
     public function update_package($data)
@@ -414,6 +414,9 @@ class Mange_model extends CI_Model
         }
         if ($data['treat_name']) {
             $feild .= ",treat_name = '$data[treat_name]'";
+        }
+        if ($data['treat_price']) {
+            $feild .= ",treat_price = '$data[treat_price]'";
         }
         if ($data['treat_detail']||$data['treat_detail']=="") {
             $feild .= ",treat_detail = '$data[treat_detail]'";
