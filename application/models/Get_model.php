@@ -256,10 +256,84 @@ class Get_model extends CI_Model
     }
     public function Export_Excel($ID_customer)
     {
-        $sql = "SELECT C.*,T.treatmens_detail,P.treat_name FROM tbl_treatments T
+        $sql = "SELECT C.*,T.treatmens_detail,P.treat_name ,t.Date_save,p.treat_price 
+        FROM tbl_treatments T
         INNER JOIN tbl_customer C ON T.ID_customer = C.ID_customer
         INNER JOIN tbl_package_treat P ON T.ID_pagekage_treat = P.ID_treat
         WHERE C.ID_customer = '$ID_customer'";
+
+        return $this->db->query($sql)->result();
+    }
+    public function get_DataSummary($data)
+    {
+        $WHERE = "";
+        if ($data['dateStart']) {
+            $WHERE .= "And DATE(t.Date_save) >= '$data[dateStart]'";
+        }
+        if ($data['dateEnd']) {
+            $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
+        }
+        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        FROM tbl_package_treat p
+        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        WHERE p.treat_status ='active' $WHERE
+        GROUP BY p.ID_treat,p.treat_name
+        ORDER BY SUM(p.treat_price) DESC";
+
+        return $this->db->query($sql)->result();
+    }
+    public function get_DataMaxSummary($data)
+    {
+        $WHERE = "";
+        if ($data['dateStart']) {
+            $WHERE .= "And DATE(t.Date_save) >= '$data[dateStart]'";
+        }
+        if ($data['dateEnd']) {
+            $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
+        }
+
+        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        FROM tbl_package_treat p
+        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        WHERE p.treat_status ='active' $WHERE
+        GROUP BY p.ID_treat,p.treat_name
+        ORDER BY SUM(p.treat_price) DESC";
+
+        return $this->db->query($sql)->result();
+    }
+    public function get_DataHit($data)
+    {
+        $WHERE = "";
+        if ($data['dateStart']) {
+            $WHERE .= "And DATE(t.Date_save) >= '$data[dateStart]'";
+        }
+        if ($data['dateEnd']) {
+            $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
+        }
+        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        FROM tbl_package_treat p
+        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        WHERE p.treat_status ='active' $WHERE
+        GROUP BY p.ID_treat,p.treat_name
+        ORDER BY COUNT(p.ID_treat) DESC";
+
+        return $this->db->query($sql)->result();
+    }
+    public function get_DataMaxCostCustomer($data)
+    {
+        $WHERE = "";
+        if ($data['dateStart']) {
+            $WHERE .= "And DATE(t.Date_save) >= '$data[dateStart]'";
+        }
+        if ($data['dateEnd']) {
+            $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
+        }
+        $sql = "SELECT t.ID_customer,c.Fisrtname,c.Lastname,SUM(p.treat_price) as cost ,COUNT(1) as amount
+        FROM tbl_package_treat p
+        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        INNER JOIN tbl_customer c on c.ID_customer =t.ID_customer 
+        WHERE p.treat_status ='active' $WHERE
+        GROUP BY t.ID_customer,c.Fisrtname,c.Lastname";
 
         return $this->db->query($sql)->result();
     }
