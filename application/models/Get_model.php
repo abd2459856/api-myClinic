@@ -256,10 +256,19 @@ class Get_model extends CI_Model
     }
     public function Export_Excel($ID_customer)
     {
-        $sql = "SELECT C.*,T.treatmens_detail,P.treat_name ,t.Date_save,p.treat_price 
-        FROM tbl_treatments T
-        INNER JOIN tbl_customer C ON T.ID_customer = C.ID_customer
-        INNER JOIN tbl_package_treat P ON T.ID_pagekage_treat = P.ID_treat
+        // $sql = "SELECT C.*,T.treatmens_detail,P.treat_name ,t.Date_save,p.treat_price 
+        // FROM tbl_treatments T
+        // INNER JOIN tbl_customer C ON T.ID_customer = C.ID_customer
+        // INNER JOIN tbl_package_treat P ON T.ID_pagekage_treat = P.ID_treat
+        // WHERE C.ID_customer = '$ID_customer'";
+        $sql = "SELECT  aa.ID_customer,p.treat_price,p.treat_name,C.*,aa.Date_save
+        FROM(
+            SELECT T.ID_pagekage_treat,t.ID_customer,Max(t.Date_save) as Date_save
+         FROM tbl_treatments t
+         GROUP BY T.ID_pagekage_treat,t.ID_customer
+        )aa
+        INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+        INNER JOIN tbl_customer c on c.ID_customer =aa.ID_customer
         WHERE C.ID_customer = '$ID_customer'";
 
         return $this->db->query($sql)->result();
@@ -273,12 +282,22 @@ class Get_model extends CI_Model
         if ($data['dateEnd']) {
             $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
         }
-        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
-        FROM tbl_package_treat p
-        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
-        WHERE p.treat_status ='active' $WHERE
-        GROUP BY p.ID_treat,p.treat_name
-        ORDER BY SUM(p.treat_price) DESC";
+        $sql = "SELECT p.ID_treat,p.treat_name, SUM(p.treat_price) as cost,COUNT(1) amount
+                FROM(
+                    SELECT T.ID_pagekage_treat,t.ID_customer
+                    FROM tbl_treatments t
+                    WHERE 1=1 $WHERE 
+                    GROUP BY T.ID_pagekage_treat,t.ID_customer
+                )aa
+                INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+                GROUP BY p.ID_treat,p.treat_name
+                ORDER BY SUM(p.treat_price) DESC";
+        // $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        // FROM tbl_package_treat p
+        // INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        // WHERE p.treat_status ='active' $WHERE
+        // GROUP BY p.ID_treat,p.treat_name
+        // ORDER BY SUM(p.treat_price) DESC";
 
         return $this->db->query($sql)->result();
     }
@@ -292,12 +311,22 @@ class Get_model extends CI_Model
             $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
         }
 
-        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
-        FROM tbl_package_treat p
-        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
-        WHERE p.treat_status ='active' $WHERE
-        GROUP BY p.ID_treat,p.treat_name
-        ORDER BY SUM(p.treat_price) DESC";
+        $sql = "SELECT p.ID_treat,p.treat_name, SUM(p.treat_price) as cost,COUNT(1) amount
+                FROM(
+                    SELECT T.ID_pagekage_treat,t.ID_customer
+                    FROM tbl_treatments t
+                    WHERE 1=1 $WHERE 
+                    GROUP BY T.ID_pagekage_treat,t.ID_customer
+                )aa
+                INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+                GROUP BY p.ID_treat,p.treat_name
+                ORDER BY SUM(p.treat_price) DESC";
+        // $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        // FROM tbl_package_treat p
+        // INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        // WHERE p.treat_status ='active' $WHERE
+        // GROUP BY p.ID_treat,p.treat_name
+        // ORDER BY SUM(p.treat_price) DESC";
 
         return $this->db->query($sql)->result();
     }
@@ -310,12 +339,22 @@ class Get_model extends CI_Model
         if ($data['dateEnd']) {
             $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
         }
-        $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
-        FROM tbl_package_treat p
-        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
-        WHERE p.treat_status ='active' $WHERE
-        GROUP BY p.ID_treat,p.treat_name
-        ORDER BY COUNT(p.ID_treat) DESC";
+        $sql = "SELECT p.ID_treat,p.treat_name, SUM(p.treat_price) as cost,COUNT(1) amount
+                FROM(
+                    SELECT T.ID_pagekage_treat,t.ID_customer
+                    FROM tbl_treatments t
+                    WHERE 1=1 $WHERE 
+                    GROUP BY T.ID_pagekage_treat,t.ID_customer
+                )aa
+                INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+                GROUP BY p.ID_treat,p.treat_name
+                ORDER BY COUNT(p.ID_treat) DESC";
+        // $sql = "SELECT p.ID_treat,p.treat_name ,SUM(p.treat_price) as cost,COUNT(1) amount
+        // FROM tbl_package_treat p
+        // INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        // WHERE p.treat_status ='active' $WHERE
+        // GROUP BY p.ID_treat,p.treat_name
+        // ORDER BY COUNT(p.ID_treat) DESC";
 
         return $this->db->query($sql)->result();
     }
@@ -328,12 +367,22 @@ class Get_model extends CI_Model
         if ($data['dateEnd']) {
             $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
         }
-        $sql = "SELECT t.ID_customer,c.Fisrtname,c.Lastname,SUM(p.treat_price) as cost ,COUNT(1) as amount
-        FROM tbl_package_treat p
-        INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
-        INNER JOIN tbl_customer c on c.ID_customer =t.ID_customer 
-        WHERE p.treat_status ='active' $WHERE
-        GROUP BY t.ID_customer,c.Fisrtname,c.Lastname";
+        $sql = " SELECT  aa.ID_customer,c.Fisrtname,c.Lastname,SUM(p.treat_price) as cost ,COUNT(1) as amount
+        FROM(
+            SELECT T.ID_pagekage_treat,t.ID_customer
+            FROM tbl_treatments t 
+            WHERE 1=1 $WHERE 
+            GROUP BY T.ID_pagekage_treat,t.ID_customer
+        )aa
+        INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+         INNER JOIN tbl_customer c on c.ID_customer =aa.ID_customer 
+        GROUP BY aa.ID_customer,c.Fisrtname,c.Lastname";
+        // $sql = "SELECT t.ID_customer,c.Fisrtname,c.Lastname,SUM(p.treat_price) as cost ,COUNT(1) as amount
+        // FROM tbl_package_treat p
+        // INNER JOIN tbl_treatments t on p.ID_treat =t.ID_pagekage_treat
+        // INNER JOIN tbl_customer c on c.ID_customer =t.ID_customer 
+        // WHERE p.treat_status ='active' $WHERE
+        // GROUP BY t.ID_customer,c.Fisrtname,c.Lastname";
 
         return $this->db->query($sql)->result();
     }
