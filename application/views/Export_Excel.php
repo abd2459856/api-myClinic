@@ -14,7 +14,7 @@
         <td>เลขบัตรประชาชน</td>
         <td>เบอร์โทรศัพท์</td>
         <td>ประเภทแพ็กเกจ</td>
-        <td>รายละเอียด</td>
+        <!-- <td>รายละเอียด</td> -->
         <td>ค่าใช้จ่าย</td>
         <td>วันที่รักษา</td>
     </tr>
@@ -28,9 +28,9 @@
             <td style='mso-number-format:"\@"'><?php echo $r->IDCard; ?></td>
             <td style='mso-number-format:"\@"'><?php echo $r->tell; ?></td>
             <td style='mso-number-format:"\@"'><?php echo $r->treat_name; ?></td>
-            <td style='mso-number-format:"\@"'><?php echo $r->treatmens_detail; ?></td>
+            <!-- <td style='mso-number-format:"\@"'><//?php echo $r->treatmens_detail; ?></td> -->
             <td style='mso-number-format:"\@"'><?php echo $r->treat_price; ?></td>
-            <td style='mso-number-format:"\@"'><?php echo $r->Date_save; ?></td>
+            <td style='mso-number-format:"\@"'><?php echo date("Y-m-d", strtotime($r->Date_save)); ?></td>
         </tr>
     <?php } ?>
 </table>
