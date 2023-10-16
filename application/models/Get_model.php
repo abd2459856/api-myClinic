@@ -386,4 +386,30 @@ class Get_model extends CI_Model
 
         return $this->db->query($sql)->result();
     }
+    public function Export_ExcelAll($data)
+    {
+        $WHERE = "";
+        if ($data['dateStart']) {
+            $WHERE .= "And DATE(t.Date_save) >= '$data[dateStart]'";
+        }
+        if ($data['dateEnd']) {
+            $WHERE .= "And DATE(t.Date_save) <= '$data[dateEnd]'";
+        }
+        // $sql = "SELECT C.*,T.treatmens_detail,P.treat_name ,t.Date_save,p.treat_price 
+        // FROM tbl_treatments T
+        // INNER JOIN tbl_customer C ON T.ID_customer = C.ID_customer
+        // INNER JOIN tbl_package_treat P ON T.ID_pagekage_treat = P.ID_treat
+        // WHERE C.ID_customer = '$ID_customer'";
+        $sql = "SELECT  aa.ID_customer,p.treat_price,p.treat_name,C.*,aa.Date_save
+        FROM(
+            SELECT T.ID_pagekage_treat,t.ID_customer,Max(t.Date_save) as Date_save
+         FROM tbl_treatments t
+         WHERE 1=1 $WHERE 
+         GROUP BY T.ID_pagekage_treat,t.ID_customer
+        )aa
+        INNER JOIN tbl_package_treat p on p.ID_treat =aa.ID_pagekage_treat
+        INNER JOIN tbl_customer c on c.ID_customer =aa.ID_customer";
+
+        return $this->db->query($sql)->result();
+    }
 }

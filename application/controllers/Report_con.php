@@ -36,4 +36,10 @@ class Report_con extends CI_Controller
         http_response_code(200);
         echo json_encode(['status' => 'success', 'data' => $newrespone]);
     }
+    public function Export_ExcelAll()
+    {
+        $data['Table'] = $this->Get_model->Export_ExcelAll($this->input->get());
+        // print_r($data['Table']);
+        $this->load->view("Export_Excel", $data);
+    }
 }
