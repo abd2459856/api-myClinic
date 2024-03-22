@@ -32,6 +32,7 @@ class Customer_con extends CI_Controller
                 "Lastname" => $r->Lastname,
                 "Fisrtname" => $r->Fisrtname,
                 "img_name" => $r->img_name,
+                "Customer_ID_Show" => $r->Customer_ID_Show,
             );
         }
         http_response_code(200);

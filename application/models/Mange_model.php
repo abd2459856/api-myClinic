@@ -61,6 +61,11 @@ class Mange_model extends CI_Model
     public function insert_customer($data)
 
     {
+        if ($data['Customer_ID_Show']) {
+            $Customer_ID_Show = $data['Customer_ID_Show'];
+        } else {
+            $Customer_ID_Show = '';
+        }
         if ($data['IDCard']) {
             $IDCard = $data['IDCard'];
         } else {
@@ -212,7 +217,8 @@ class Mange_model extends CI_Model
             address_province,
             postal,
             tell,
-            email
+            email,
+            Customer_ID_Show
         )
         VALUES
         (
@@ -240,7 +246,8 @@ class Mange_model extends CI_Model
             '$address_province',
             '$postal',
             '$tell',
-            '$email'
+            '$email',
+            '$Customer_ID_Show'
         )";
         $this->db->query($sql);
         $sql2 = "SELECT LAST_INSERT_ID() as ID_customer";
@@ -272,7 +279,8 @@ class Mange_model extends CI_Model
             address_province = '$data[address_province]',
             postal = '$data[postal]',
             tell = '$data[tell]',
-            email= '$data[email]'
+            email= '$data[email]',
+            Customer_ID_Show = '$data[Customer_ID_Show]'
             WHERE ID_customer = '$data[ID_customer]'";
         return $this->db->query($sql);
     }

@@ -205,7 +205,7 @@ class Get_model extends CI_Model
     }
     public function profile_customer($data)
     {
-        $sql = "SELECT C.Nickname,C.ID_customer,C.email,C.profile,C.tell, CONCAT(C.Fisrtname, ' ', C.Lastname) AS Name,(SELECT MAX(Date_nut) FROM `tbl_appointment` WHERE ID_customer =C.ID_customer) as Date_nut FROM `tbl_customer` C
+        $sql = "SELECT C.Nickname,C.ID_customer,C.email,C.profile,C.tell, CONCAT(C.Fisrtname, ' ', C.Lastname) AS Name,(SELECT MAX(Date_nut) FROM `tbl_appointment` WHERE ID_customer =C.ID_customer) as Date_nut,C.Customer_ID_Show FROM `tbl_customer` C
         WHERE C.ID_customer = '$data[IDCus]' ";
         return $this->db->query($sql)->result();
     }
