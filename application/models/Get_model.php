@@ -101,7 +101,7 @@ class Get_model extends CI_Model
     {
         $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE = "And (ID_customer like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%' or tell like '%$data[textSearch]%' or Nickname like '%$data[textSearch]%')";
+            $WHERE = "And (Customer_ID_Show like '%$data[textSearch]%' or Fisrtname like '%$data[textSearch]%' or Lastname like '%$data[textSearch]%' or tell like '%$data[textSearch]%' or Nickname like '%$data[textSearch]%')";
         }
         if ($data['IDCus']) {
             $WHERE = "And ID_customer = '$data[IDCus]'";
@@ -183,7 +183,7 @@ class Get_model extends CI_Model
     {
         $WHERE = '';
         if ($data['textSearch']) {
-            $WHERE .= "And (N.ID_customer  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%' OR C.tell like '%$data[textSearch]%')";
+            $WHERE .= "And (C.Customer_ID_Show  like '%$data[textSearch]%' or C.Fisrtname like '%$data[textSearch]%' or C.Lastname like '%$data[textSearch]%'  or CONCAT( D.Fisrtname , ' ' ,D.Lastname) like '%$data[textSearch]%' OR C.tell like '%$data[textSearch]%')";
         }
         if ($data['dateStart']) {
             $WHERE .= "And DATE(N.Date_nut) >= '$data[dateStart]'";
@@ -196,6 +196,7 @@ class Get_model extends CI_Model
         ,CONCAT(C.Fisrtname, ' ', C.Lastname) AS C_Name
         ,CONCAT( D.Fisrtname , ' ' ,D.Lastname) AS D_Name
         ,C.tell
+        ,C.Customer_ID_Show
         ,(SELECT filepath FROM tbl_image i WHERE i.id_customer = C.ID_customer AND i.Pro = 1 ) as img_name 
         FROM tbl_appointment N 
         LEFT JOIN tbl_customer C ON N.ID_customer =C.ID_customer
